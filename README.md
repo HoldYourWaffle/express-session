@@ -5,6 +5,10 @@
 [![Build Status][travis-image]][travis-url]
 [![Test Coverage][coveralls-image]][coveralls-url]
 
+## In this fork
+This fork has [PR #656](https://github.com/expressjs/session/pull/656) merged, meaning you can easily use it with TypeScript.
+Once [express-session](https://www.npmjs.com/package/express-session) releases it's next major version ([with this PR merged into it](https://github.com/expressjs/session/pull/656#issuecomment-489245845)) this package will become obsolete.
+
 ## Installation
 
 This is a [Node.js](https://nodejs.org/en/) module available through the
@@ -822,7 +826,7 @@ app.get('/bar', function (req, res, next) {
 [coveralls-url]: https://coveralls.io/r/expressjs/session?branch=master
 [node-url]: https://nodejs.org/en/download
 [npm-downloads-image]: https://badgen.net/npm/dm/express-session
-[npm-url]: https://npmjs.org/package/express-session
+[npm-url]: https://npmjs.org/package/@holdyourwaffle/express-session
 [npm-version-image]: https://badgen.net/npm/v/express-session
 [travis-image]: https://badgen.net/travis/expressjs/session/master
 [travis-url]: https://travis-ci.org/expressjs/session
