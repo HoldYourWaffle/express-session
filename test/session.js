@@ -8,6 +8,7 @@ var http = require('http')
 var https = require('https')
 var request = require('supertest')
 var session = require('../')
+var SmartStore = require('./support/smart-store')
 var SyncStore = require('./support/sync-store')
 var utils = require('./support/utils')
 
@@ -1847,6 +1848,55 @@ describe('session()', function(){
           .get('/')
           .expect(shouldSetCookieToValue('previous', 'cookieValue'))
           .expect(200, done)
+        })
+      })
+
+      describe('.originalMaxAge', function () {
+        it('should equal original maxAge', function (done) {
+          var server = createServer({ cookie: { maxAge: 2000 } }, function (req, res) {
+            res.end(JSON.stringify(req.session.cookie.originalMaxAge))
+          })
+
+          request(server)
+            .get('/')
+            .expect(200, '2000', done)
+        })
+
+        it('should equal original maxAge for all requests', function (done) {
+          var server = createServer({ cookie: { maxAge: 2000 } }, function (req, res) {
+            res.end(JSON.stringify(req.session.cookie.originalMaxAge))
+          })
+
+          request(server)
+            .get('/')
+            .expect(200, '2000', function (err, res) {
+              if (err) return done(err)
+              setTimeout(function () {
+                request(server)
+                  .get('/')
+                  .set('Cookie', cookie(res))
+                  .expect(200, '2000', done)
+              }, 100)
+            })
+        })
+
+        it('should equal original maxAge for all requests', function (done) {
+          var store = new SmartStore()
+          var server = createServer({ cookie: { maxAge: 2000 }, store: store }, function (req, res) {
+            res.end(JSON.stringify(req.session.cookie.originalMaxAge))
+          })
+
+          request(server)
+            .get('/')
+            .expect(200, '2000', function (err, res) {
+              if (err) return done(err)
+              setTimeout(function () {
+                request(server)
+                  .get('/')
+                  .set('Cookie', cookie(res))
+                  .expect(200, '2000', done)
+              }, 100)
+            })
         })
       })
 
